@@ -1,0 +1,79 @@
+name: Export Terraform Modules
+
+on:
+  # Run every Monday at 02:00 UTC to pick up new provider releases
+  schedule:
+    - cron: "0 2 * * 1"
+
+  # Re-run immediately whenever the provider list changes
+  push:
+    branches: [main]
+    paths:
+      - "new-exports/providers.json"
+
+  # Allow ad-hoc runs from the Actions tab
+  workflow_dispatch:
+
+# Prevent parallel runs writing to the same directories simultaneously
+concurrency:
+  group: export-modules
+  cancel-in-progress: false
+
+# Required so the job can commit and push generated modules
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history so we can push back cleanly
+          fetch-depth: 1
+
+      # ── Tool setup ────────────────────────────────────────────────────────
+      # terraform_wrapper: false is critical — the default wrapper injects
+      # extra lines into stdout that break JSON parsing of `providers schema -json`
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+          terraform_wrapper: false
+
+      # Uncomment to use OpenTofu instead of Terraform:
+      # - name: Set up OpenTofu
+      #   uses: opentofu/setup-opentofu@v1
+      #   with:
+      #     tofu_version: latest
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ── Generate modules ─────────────────────────────────────────────────
+      # Reads providers.json; skips modules that already exist on disk
+      - name: Export provider modules
+        working-directory: new-exports
+        run: python3 export_modules.py
+
+      # ── Commit results ───────────────────────────────────────────────────
+      - name: Commit and push new modules
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add new-exports/terraform/
+
+          if git diff --staged --quiet; then
+            echo "Nothing new — all modules already exist."
+            exit 0
+          fi
+
+          # Count newly generated modules (one main.tf per resource type)
+          NEW=$(git diff --staged --name-only | grep -c 'main\.tf' || true)
+          git commit -m "chore: auto-export ${NEW} new provider modules [skip ci]"
+          git push
