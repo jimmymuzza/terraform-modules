@@ -4,19 +4,19 @@ Auto-generated OpenTofu wrapper modules for Terraform providers. Each module wra
 
 ## How it works
 
-A Python script queries the OpenTofu registry for the latest provider version, extracts the full resource schema, and generates four files per resource type:
+`scripts/generate.py` queries the Terraform registry for the latest provider version, extracts the full resource schema, and generates four files per resource type:
 
 | File | Purpose |
 |------|---------|
 | `main.tf` | Resource block iterating over `var.<resource_type_plural>` |
 | `variables.tf` | Single `map(object(...))` variable with required and optional attributes typed correctly |
 | `outputs.tf` | Exposes the full resource map as an output |
-| `versions.tf` | Pessimistic provider version constraint (`~>`) |
+| `versions.tf` | Pessimistic provider version constraint (`~> major.minor`) |
 
 Modules are written to:
 
 ```
-new-exports/terraform/<provider>/<version>/<resource_type>/
+opentofu/<provider>/<version>/module_<resource_type>/
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ Reference a module directly from the generated path:
 
 ```hcl
 module "resource_groups" {
-  source = "./new-exports/terraform/azurerm/4.61.0/azurerm_resource_group"
+  source = "./opentofu/azurerm/4.61.0/module_azurerm_resource_group"
 
   resource_groups = {
     rg-prod = {
@@ -36,11 +36,29 @@ module "resource_groups" {
 }
 ```
 
-## Automation
+## Running the generator
 
-The GitHub Actions workflow runs every Monday at 02:00 UTC and whenever `new-exports/providers.json` is updated. It installs OpenTofu, generates any missing modules, and commits the results back to the repository.
+Requires Python 3.8+ and internet access. OpenTofu must be installed and available in PATH (or placed at `.tofu-bin/tofu.exe`).
 
-To add a provider or pin a version, edit `new-exports/providers.json`:
+```bash
+# Generate all providers defined in scripts/providers.json
+python scripts/generate.py
+
+# Single provider, latest version
+python scripts/generate.py azurerm
+
+# Single provider, pinned version
+python scripts/generate.py aws --version 6.33.0
+
+# Regenerate modules that already exist
+python scripts/generate.py azurerm --force
+```
+
+Existing modules are skipped automatically — only missing resource types are generated on subsequent runs.
+
+## Configuration
+
+Edit `scripts/providers.json` to add providers or pin versions:
 
 ```json
 {
@@ -52,20 +70,10 @@ To add a provider or pin a version, edit `new-exports/providers.json`:
 }
 ```
 
-## Local testing
-
-Requires Python 3.8+ and internet access. OpenTofu is downloaded automatically if not already installed.
-
-```bash
-python3 test_local.py
-```
-
-This generates modules for `azurerm_resource_group`, `azurerm_management_group`, and `azurerm_subscription` into a local `test-output/` directory.
-
 ## Repository layout
 
 ```
 current-examples/   Hand-crafted reference modules
-new-exports/        Auto-generated modules and generation script
-test_local.py       Standalone local test script
+opentofu/           Auto-generated modules
+scripts/            Generation script and provider config
 ```
