@@ -1,0 +1,4 @@
+output "hpc_cache_access_policies" {
+  description = "All hpc_cache_access_policy resources"
+  value       = azurerm_hpc_cache_access_policy.hpc_cache_access_policies
+}

@@ -1,0 +1,32 @@
+# OpenTofu / Terraform working directories and state
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfplan
+
+# Local tofu binary
+.tofu-bin/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Test output from local runs
+test-output/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude
+CLAUDE.md
+.claude/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
