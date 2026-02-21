@@ -1,0 +1,15 @@
+{
+  "default_tool": "terraform",
+  "output_dir": ".",
+  "providers": [
+    {
+      "provider": "azurerm",
+      "namespace": "hashicorp"
+    },
+    {
+      "provider": "aws",
+      "namespace": "hashicorp",
+      "version": "6.33.0"
+    }
+  ]
+}
