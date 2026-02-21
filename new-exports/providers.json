@@ -1,5 +1,5 @@
 {
-  "default_tool": "terraform",
+  "default_tool": "tofu",
   "output_dir": ".",
   "providers": [
     {
