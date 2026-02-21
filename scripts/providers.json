@@ -1,0 +1,13 @@
+{
+  "default_tool": "tofu",
+  "providers": [
+    {
+      "provider": "azurerm",
+      "namespace": "hashicorp"
+    },
+    {
+      "provider": "aws",
+      "namespace": "hashicorp"
+    }
+  ]
+}
