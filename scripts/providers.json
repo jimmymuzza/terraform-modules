@@ -4,10 +4,14 @@
     {
       "provider": "azurerm",
       "namespace": "hashicorp"
-    },
-    {
-      "provider": "aws",
-      "namespace": "hashicorp"
-    }
+      },
+      {
+        "provider": "aws",
+        "namespace": "hashicorp"
+      },
+      {
+        "provider": "azuread",
+        "namespace": "hashicorp"
+      }
   ]
 }
