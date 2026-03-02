@@ -1,0 +1,44 @@
+resource "azurerm_security_center_automation" "security_center_automations" {
+  for_each = var.security_center_automations
+
+  location            = each.value.location
+  name                = each.value.name
+  resource_group_name = each.value.resource_group_name
+  scopes              = each.value.scopes
+  description         = each.value.description
+  enabled             = each.value.enabled
+  tags                = each.value.tags
+
+  dynamic "action" {
+    for_each = each.value.action != null ? each.value.action : []
+    content {
+      resource_id       = action.value.resource_id
+      connection_string = action.value.connection_string
+      trigger_url       = action.value.trigger_url
+      type              = action.value.type
+    }
+  }
+
+  dynamic "source" {
+    for_each = each.value.source != null ? each.value.source : []
+    content {
+      event_source = source.value.event_source
+
+      dynamic "rule_set" {
+        for_each = source.value.rule_set != null ? source.value.rule_set : []
+        content {
+
+          dynamic "rule" {
+            for_each = rule_set.value.rule != null ? rule_set.value.rule : []
+            content {
+              expected_value = rule.value.expected_value
+              operator       = rule.value.operator
+              property_path  = rule.value.property_path
+              property_type  = rule.value.property_type
+            }
+          }
+        }
+      }
+    }
+  }
+}
