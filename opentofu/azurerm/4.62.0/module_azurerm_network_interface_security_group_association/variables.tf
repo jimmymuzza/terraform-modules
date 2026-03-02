@@ -1,0 +1,13 @@
+variable "network_interface_security_group_associations" {
+  description = <<EOT
+Map of network_interface_security_group_associations, attributes below
+Required:
+    - network_interface_id
+    - network_security_group_id
+EOT
+
+  type = map(object({
+    network_interface_id      = string
+    network_security_group_id = string
+  }))
+}
