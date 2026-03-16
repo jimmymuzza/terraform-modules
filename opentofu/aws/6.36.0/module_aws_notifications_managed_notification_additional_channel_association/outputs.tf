@@ -1,0 +1,4 @@
+output "notifications_managed_notification_additional_channel_associations" {
+  description = "All notifications_managed_notification_additional_channel_association resources"
+  value       = aws_notifications_managed_notification_additional_channel_association.notifications_managed_notification_additional_channel_associations
+}
