@@ -1,0 +1,5 @@
+resource "azurerm_palo_alto_local_rulestack_outbound_untrust_certificate_association" "palo_alto_local_rulestack_outbound_untrust_certificate_associations" {
+  for_each = var.palo_alto_local_rulestack_outbound_untrust_certificate_associations
+
+  certificate_id = each.value.certificate_id
+}
