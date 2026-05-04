@@ -1,0 +1,4 @@
+output "palo_alto_next_generation_firewall_virtual_network_strata_cloud_managers" {
+  description = "All palo_alto_next_generation_firewall_virtual_network_strata_cloud_manager resources"
+  value       = azurerm_palo_alto_next_generation_firewall_virtual_network_strata_cloud_manager.palo_alto_next_generation_firewall_virtual_network_strata_cloud_managers
+}
