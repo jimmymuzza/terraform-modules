@@ -1,0 +1,4 @@
+output "chimesdkmediapipelines_media_insights_pipeline_configurations" {
+  description = "All chimesdkmediapipelines_media_insights_pipeline_configuration resources"
+  value       = aws_chimesdkmediapipelines_media_insights_pipeline_configuration.chimesdkmediapipelines_media_insights_pipeline_configurations
+}
