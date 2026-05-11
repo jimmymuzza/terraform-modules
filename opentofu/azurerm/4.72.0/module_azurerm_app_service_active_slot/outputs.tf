@@ -1,0 +1,4 @@
+output "app_service_active_slots" {
+  description = "All app_service_active_slot resources"
+  value       = azurerm_app_service_active_slot.app_service_active_slots
+}
