@@ -1,0 +1,4 @@
+output "system_center_virtual_machine_manager_virtual_machine_instance_guest_agents" {
+  description = "All system_center_virtual_machine_manager_virtual_machine_instance_guest_agent resources"
+  value       = azurerm_system_center_virtual_machine_manager_virtual_machine_instance_guest_agent.system_center_virtual_machine_manager_virtual_machine_instance_guest_agents
+}
