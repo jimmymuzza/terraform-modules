@@ -1,0 +1,4 @@
+output "system_center_virtual_machine_manager_virtual_machine_templates" {
+  description = "All system_center_virtual_machine_manager_virtual_machine_template resources"
+  value       = azurerm_system_center_virtual_machine_manager_virtual_machine_template.system_center_virtual_machine_manager_virtual_machine_templates
+}
