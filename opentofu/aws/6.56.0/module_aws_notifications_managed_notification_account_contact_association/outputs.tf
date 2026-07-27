@@ -1,0 +1,4 @@
+output "notifications_managed_notification_account_contact_associations" {
+  description = "All notifications_managed_notification_account_contact_association resources"
+  value       = aws_notifications_managed_notification_account_contact_association.notifications_managed_notification_account_contact_associations
+}
