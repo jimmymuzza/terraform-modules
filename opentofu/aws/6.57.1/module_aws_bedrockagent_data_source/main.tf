@@ -1,0 +1,362 @@
+resource "aws_bedrockagent_data_source" "bedrockagent_data_sources" {
+  for_each = var.bedrockagent_data_sources
+
+  knowledge_base_id    = each.value.knowledge_base_id
+  name                 = each.value.name
+  data_deletion_policy = each.value.data_deletion_policy
+  description          = each.value.description
+  region               = each.value.region
+
+  dynamic "data_source_configuration" {
+    for_each = each.value.data_source_configuration != null ? each.value.data_source_configuration : []
+    content {
+      type = data_source_configuration.value.type
+
+      dynamic "confluence_configuration" {
+        for_each = data_source_configuration.value.confluence_configuration != null ? data_source_configuration.value.confluence_configuration : []
+        content {
+
+          dynamic "crawler_configuration" {
+            for_each = confluence_configuration.value.crawler_configuration != null ? confluence_configuration.value.crawler_configuration : []
+            content {
+
+              dynamic "filter_configuration" {
+                for_each = crawler_configuration.value.filter_configuration != null ? crawler_configuration.value.filter_configuration : []
+                content {
+                  type = filter_configuration.value.type
+
+                  dynamic "pattern_object_filter" {
+                    for_each = filter_configuration.value.pattern_object_filter != null ? filter_configuration.value.pattern_object_filter : []
+                    content {
+
+                      dynamic "filters" {
+                        for_each = pattern_object_filter.value.filters != null ? pattern_object_filter.value.filters : []
+                        content {
+                          object_type       = filters.value.object_type
+                          exclusion_filters = filters.value.exclusion_filters
+                          inclusion_filters = filters.value.inclusion_filters
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          dynamic "source_configuration" {
+            for_each = confluence_configuration.value.source_configuration != null ? confluence_configuration.value.source_configuration : []
+            content {
+              auth_type              = source_configuration.value.auth_type
+              credentials_secret_arn = source_configuration.value.credentials_secret_arn
+              host_type              = source_configuration.value.host_type
+              host_url               = source_configuration.value.host_url
+            }
+          }
+        }
+      }
+
+      dynamic "managed_knowledge_base_connector_configuration" {
+        for_each = data_source_configuration.value.managed_knowledge_base_connector_configuration != null ? data_source_configuration.value.managed_knowledge_base_connector_configuration : []
+        content {
+          connector_parameters = managed_knowledge_base_connector_configuration.value.connector_parameters
+
+          dynamic "deletion_protection_configuration" {
+            for_each = managed_knowledge_base_connector_configuration.value.deletion_protection_configuration != null ? managed_knowledge_base_connector_configuration.value.deletion_protection_configuration : []
+            content {
+              deletion_protection_status    = deletion_protection_configuration.value.deletion_protection_status
+              deletion_protection_threshold = deletion_protection_configuration.value.deletion_protection_threshold
+            }
+          }
+
+          dynamic "media_extraction_configuration" {
+            for_each = managed_knowledge_base_connector_configuration.value.media_extraction_configuration != null ? managed_knowledge_base_connector_configuration.value.media_extraction_configuration : []
+            content {
+
+              dynamic "audio_extraction_configuration" {
+                for_each = media_extraction_configuration.value.audio_extraction_configuration != null ? media_extraction_configuration.value.audio_extraction_configuration : []
+                content {
+                  audio_extraction_status = audio_extraction_configuration.value.audio_extraction_status
+                }
+              }
+
+              dynamic "image_extraction_configuration" {
+                for_each = media_extraction_configuration.value.image_extraction_configuration != null ? media_extraction_configuration.value.image_extraction_configuration : []
+                content {
+                  image_extraction_status = image_extraction_configuration.value.image_extraction_status
+                }
+              }
+
+              dynamic "video_extraction_configuration" {
+                for_each = media_extraction_configuration.value.video_extraction_configuration != null ? media_extraction_configuration.value.video_extraction_configuration : []
+                content {
+                  video_extraction_status = video_extraction_configuration.value.video_extraction_status
+                }
+              }
+            }
+          }
+        }
+      }
+
+      dynamic "s3_configuration" {
+        for_each = data_source_configuration.value.s3_configuration != null ? data_source_configuration.value.s3_configuration : []
+        content {
+          bucket_arn              = s3_configuration.value.bucket_arn
+          bucket_owner_account_id = s3_configuration.value.bucket_owner_account_id
+          inclusion_prefixes      = s3_configuration.value.inclusion_prefixes
+        }
+      }
+
+      dynamic "salesforce_configuration" {
+        for_each = data_source_configuration.value.salesforce_configuration != null ? data_source_configuration.value.salesforce_configuration : []
+        content {
+
+          dynamic "crawler_configuration" {
+            for_each = salesforce_configuration.value.crawler_configuration != null ? salesforce_configuration.value.crawler_configuration : []
+            content {
+
+              dynamic "filter_configuration" {
+                for_each = crawler_configuration.value.filter_configuration != null ? crawler_configuration.value.filter_configuration : []
+                content {
+                  type = filter_configuration.value.type
+
+                  dynamic "pattern_object_filter" {
+                    for_each = filter_configuration.value.pattern_object_filter != null ? filter_configuration.value.pattern_object_filter : []
+                    content {
+
+                      dynamic "filters" {
+                        for_each = pattern_object_filter.value.filters != null ? pattern_object_filter.value.filters : []
+                        content {
+                          object_type       = filters.value.object_type
+                          exclusion_filters = filters.value.exclusion_filters
+                          inclusion_filters = filters.value.inclusion_filters
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          dynamic "source_configuration" {
+            for_each = salesforce_configuration.value.source_configuration != null ? salesforce_configuration.value.source_configuration : []
+            content {
+              auth_type              = source_configuration.value.auth_type
+              credentials_secret_arn = source_configuration.value.credentials_secret_arn
+              host_url               = source_configuration.value.host_url
+            }
+          }
+        }
+      }
+
+      dynamic "share_point_configuration" {
+        for_each = data_source_configuration.value.share_point_configuration != null ? data_source_configuration.value.share_point_configuration : []
+        content {
+
+          dynamic "crawler_configuration" {
+            for_each = share_point_configuration.value.crawler_configuration != null ? share_point_configuration.value.crawler_configuration : []
+            content {
+
+              dynamic "filter_configuration" {
+                for_each = crawler_configuration.value.filter_configuration != null ? crawler_configuration.value.filter_configuration : []
+                content {
+                  type = filter_configuration.value.type
+
+                  dynamic "pattern_object_filter" {
+                    for_each = filter_configuration.value.pattern_object_filter != null ? filter_configuration.value.pattern_object_filter : []
+                    content {
+
+                      dynamic "filters" {
+                        for_each = pattern_object_filter.value.filters != null ? pattern_object_filter.value.filters : []
+                        content {
+                          object_type       = filters.value.object_type
+                          exclusion_filters = filters.value.exclusion_filters
+                          inclusion_filters = filters.value.inclusion_filters
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          dynamic "source_configuration" {
+            for_each = share_point_configuration.value.source_configuration != null ? share_point_configuration.value.source_configuration : []
+            content {
+              auth_type              = source_configuration.value.auth_type
+              credentials_secret_arn = source_configuration.value.credentials_secret_arn
+              domain                 = source_configuration.value.domain
+              host_type              = source_configuration.value.host_type
+              site_urls              = source_configuration.value.site_urls
+              tenant_id              = source_configuration.value.tenant_id
+            }
+          }
+        }
+      }
+
+      dynamic "web_configuration" {
+        for_each = data_source_configuration.value.web_configuration != null ? data_source_configuration.value.web_configuration : []
+        content {
+
+          dynamic "crawler_configuration" {
+            for_each = web_configuration.value.crawler_configuration != null ? web_configuration.value.crawler_configuration : []
+            content {
+              exclusion_filters = crawler_configuration.value.exclusion_filters
+              inclusion_filters = crawler_configuration.value.inclusion_filters
+              scope             = crawler_configuration.value.scope
+              user_agent        = crawler_configuration.value.user_agent
+
+              dynamic "crawler_limits" {
+                for_each = crawler_configuration.value.crawler_limits != null ? crawler_configuration.value.crawler_limits : []
+                content {
+                  max_pages  = crawler_limits.value.max_pages
+                  rate_limit = crawler_limits.value.rate_limit
+                }
+              }
+            }
+          }
+
+          dynamic "source_configuration" {
+            for_each = web_configuration.value.source_configuration != null ? web_configuration.value.source_configuration : []
+            content {
+
+              dynamic "url_configuration" {
+                for_each = source_configuration.value.url_configuration != null ? source_configuration.value.url_configuration : []
+                content {
+
+                  dynamic "seed_urls" {
+                    for_each = url_configuration.value.seed_urls != null ? url_configuration.value.seed_urls : []
+                    content {
+                      url = seed_urls.value.url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  dynamic "server_side_encryption_configuration" {
+    for_each = each.value.server_side_encryption_configuration != null ? each.value.server_side_encryption_configuration : []
+    content {
+      kms_key_arn = server_side_encryption_configuration.value.kms_key_arn
+    }
+  }
+
+  dynamic "vector_ingestion_configuration" {
+    for_each = each.value.vector_ingestion_configuration != null ? each.value.vector_ingestion_configuration : []
+    content {
+
+      dynamic "chunking_configuration" {
+        for_each = vector_ingestion_configuration.value.chunking_configuration != null ? vector_ingestion_configuration.value.chunking_configuration : []
+        content {
+          chunking_strategy = chunking_configuration.value.chunking_strategy
+
+          dynamic "fixed_size_chunking_configuration" {
+            for_each = chunking_configuration.value.fixed_size_chunking_configuration != null ? chunking_configuration.value.fixed_size_chunking_configuration : []
+            content {
+              max_tokens         = fixed_size_chunking_configuration.value.max_tokens
+              overlap_percentage = fixed_size_chunking_configuration.value.overlap_percentage
+            }
+          }
+
+          dynamic "hierarchical_chunking_configuration" {
+            for_each = chunking_configuration.value.hierarchical_chunking_configuration != null ? chunking_configuration.value.hierarchical_chunking_configuration : []
+            content {
+              overlap_tokens = hierarchical_chunking_configuration.value.overlap_tokens
+
+              dynamic "level_configuration" {
+                for_each = hierarchical_chunking_configuration.value.level_configuration != null ? hierarchical_chunking_configuration.value.level_configuration : []
+                content {
+                  max_tokens = level_configuration.value.max_tokens
+                }
+              }
+            }
+          }
+
+          dynamic "semantic_chunking_configuration" {
+            for_each = chunking_configuration.value.semantic_chunking_configuration != null ? chunking_configuration.value.semantic_chunking_configuration : []
+            content {
+              breakpoint_percentile_threshold = semantic_chunking_configuration.value.breakpoint_percentile_threshold
+              buffer_size                     = semantic_chunking_configuration.value.buffer_size
+              max_token                       = semantic_chunking_configuration.value.max_token
+            }
+          }
+        }
+      }
+
+      dynamic "custom_transformation_configuration" {
+        for_each = vector_ingestion_configuration.value.custom_transformation_configuration != null ? vector_ingestion_configuration.value.custom_transformation_configuration : []
+        content {
+
+          dynamic "intermediate_storage" {
+            for_each = custom_transformation_configuration.value.intermediate_storage != null ? custom_transformation_configuration.value.intermediate_storage : []
+            content {
+
+              dynamic "s3_location" {
+                for_each = intermediate_storage.value.s3_location != null ? intermediate_storage.value.s3_location : []
+                content {
+                  uri = s3_location.value.uri
+                }
+              }
+            }
+          }
+
+          dynamic "transformation" {
+            for_each = custom_transformation_configuration.value.transformation != null ? custom_transformation_configuration.value.transformation : []
+            content {
+              step_to_apply = transformation.value.step_to_apply
+
+              dynamic "transformation_function" {
+                for_each = transformation.value.transformation_function != null ? transformation.value.transformation_function : []
+                content {
+
+                  dynamic "transformation_lambda_configuration" {
+                    for_each = transformation_function.value.transformation_lambda_configuration != null ? transformation_function.value.transformation_lambda_configuration : []
+                    content {
+                      lambda_arn = transformation_lambda_configuration.value.lambda_arn
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      dynamic "parsing_configuration" {
+        for_each = vector_ingestion_configuration.value.parsing_configuration != null ? vector_ingestion_configuration.value.parsing_configuration : []
+        content {
+          parsing_strategy = parsing_configuration.value.parsing_strategy
+
+          dynamic "bedrock_data_automation_configuration" {
+            for_each = parsing_configuration.value.bedrock_data_automation_configuration != null ? parsing_configuration.value.bedrock_data_automation_configuration : []
+            content {
+              parsing_modality = bedrock_data_automation_configuration.value.parsing_modality
+            }
+          }
+
+          dynamic "bedrock_foundation_model_configuration" {
+            for_each = parsing_configuration.value.bedrock_foundation_model_configuration != null ? parsing_configuration.value.bedrock_foundation_model_configuration : []
+            content {
+              model_arn        = bedrock_foundation_model_configuration.value.model_arn
+              parsing_modality = bedrock_foundation_model_configuration.value.parsing_modality
+
+              dynamic "parsing_prompt" {
+                for_each = bedrock_foundation_model_configuration.value.parsing_prompt != null ? bedrock_foundation_model_configuration.value.parsing_prompt : []
+                content {
+                  parsing_prompt_string = parsing_prompt.value.parsing_prompt_string
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
