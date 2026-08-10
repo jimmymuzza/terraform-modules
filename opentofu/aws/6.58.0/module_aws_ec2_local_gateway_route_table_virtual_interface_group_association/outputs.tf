@@ -1,0 +1,4 @@
+output "ec2_local_gateway_route_table_virtual_interface_group_associations" {
+  description = "All ec2_local_gateway_route_table_virtual_interface_group_association resources"
+  value       = aws_ec2_local_gateway_route_table_virtual_interface_group_association.ec2_local_gateway_route_table_virtual_interface_group_associations
+}
