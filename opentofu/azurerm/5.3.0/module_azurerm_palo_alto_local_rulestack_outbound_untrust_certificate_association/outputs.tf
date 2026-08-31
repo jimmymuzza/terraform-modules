@@ -1,0 +1,4 @@
+output "palo_alto_local_rulestack_outbound_untrust_certificate_associations" {
+  description = "All palo_alto_local_rulestack_outbound_untrust_certificate_association resources"
+  value       = azurerm_palo_alto_local_rulestack_outbound_untrust_certificate_association.palo_alto_local_rulestack_outbound_untrust_certificate_associations
+}
