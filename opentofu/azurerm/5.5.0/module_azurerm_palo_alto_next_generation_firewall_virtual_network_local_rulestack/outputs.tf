@@ -1,0 +1,4 @@
+output "palo_alto_next_generation_firewall_virtual_network_local_rulestacks" {
+  description = "All palo_alto_next_generation_firewall_virtual_network_local_rulestack resources"
+  value       = azurerm_palo_alto_next_generation_firewall_virtual_network_local_rulestack.palo_alto_next_generation_firewall_virtual_network_local_rulestacks
+}
