@@ -1,0 +1,4 @@
+output "networkfirewall_firewall_transit_gateway_attachment_accepters" {
+  description = "All networkfirewall_firewall_transit_gateway_attachment_accepter resources"
+  value       = aws_networkfirewall_firewall_transit_gateway_attachment_accepter.networkfirewall_firewall_transit_gateway_attachment_accepters
+}
