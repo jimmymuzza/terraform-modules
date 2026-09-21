@@ -1,0 +1,4 @@
+output "network_manager_verifier_workspace_reachability_analysis_intents" {
+  description = "All network_manager_verifier_workspace_reachability_analysis_intent resources"
+  value       = azurerm_network_manager_verifier_workspace_reachability_analysis_intent.network_manager_verifier_workspace_reachability_analysis_intents
+}
