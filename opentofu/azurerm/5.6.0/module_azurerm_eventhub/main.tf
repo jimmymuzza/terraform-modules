@@ -1,0 +1,41 @@
+resource "azurerm_eventhub" "eventhubs" {
+  for_each = var.eventhubs
+
+  name              = each.value.name
+  namespace_id      = each.value.namespace_id
+  partition_count   = each.value.partition_count
+  message_retention = each.value.message_retention
+  status            = each.value.status
+
+  dynamic "capture_description" {
+    for_each = each.value.capture_description != null ? each.value.capture_description : []
+    content {
+      enabled             = capture_description.value.enabled
+      encoding            = capture_description.value.encoding
+      interval_in_seconds = capture_description.value.interval_in_seconds
+      size_limit_in_bytes = capture_description.value.size_limit_in_bytes
+      skip_empty_archives = capture_description.value.skip_empty_archives
+
+      dynamic "destination" {
+        for_each = capture_description.value.destination != null ? capture_description.value.destination : []
+        content {
+          archive_name_format         = destination.value.archive_name_format
+          blob_container_name         = destination.value.blob_container_name
+          name                        = destination.value.name
+          storage_account_id          = destination.value.storage_account_id
+          storage_authentication_id   = destination.value.storage_authentication_id
+          storage_authentication_type = destination.value.storage_authentication_type
+        }
+      }
+    }
+  }
+
+  dynamic "retention_description" {
+    for_each = each.value.retention_description != null ? each.value.retention_description : []
+    content {
+      cleanup_policy                    = retention_description.value.cleanup_policy
+      retention_time_in_hours           = retention_description.value.retention_time_in_hours
+      tombstone_retention_time_in_hours = retention_description.value.tombstone_retention_time_in_hours
+    }
+  }
+}
