@@ -1,0 +1,4 @@
+output "system_center_virtual_machine_manager_virtual_machine_instances" {
+  description = "All system_center_virtual_machine_manager_virtual_machine_instance resources"
+  value       = azurerm_system_center_virtual_machine_manager_virtual_machine_instance.system_center_virtual_machine_manager_virtual_machine_instances
+}
