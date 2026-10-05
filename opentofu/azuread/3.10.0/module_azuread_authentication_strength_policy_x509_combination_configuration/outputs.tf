@@ -1,0 +1,4 @@
+output "authentication_strength_policy_x509_combination_configurations" {
+  description = "All authentication_strength_policy_x509_combination_configuration resources"
+  value       = azuread_authentication_strength_policy_x509_combination_configuration.authentication_strength_policy_x509_combination_configurations
+}

@@ -1,0 +1,4 @@
+output "machine_learning_workspace_network_outbound_rule_private_endpoints" {
+  description = "All machine_learning_workspace_network_outbound_rule_private_endpoint resources"
+  value       = azurerm_machine_learning_workspace_network_outbound_rule_private_endpoint.machine_learning_workspace_network_outbound_rule_private_endpoints
+}
