@@ -1,0 +1,36 @@
+variable "stream_analytics_stream_input_blobs" {
+  description = <<EOT
+Map of stream_analytics_stream_input_blobs, attributes below
+Required:
+    - date_format
+    - name
+    - path_pattern
+    - resource_group_name
+    - storage_account_key
+    - storage_account_name
+    - storage_container_name
+    - stream_analytics_job_name
+    - time_format
+    - serialization
+Optional:
+    - authentication_mode
+EOT
+
+  type = map(object({
+    date_format               = string
+    name                      = string
+    path_pattern              = string
+    resource_group_name       = string
+    storage_account_key       = string
+    storage_account_name      = string
+    storage_container_name    = string
+    stream_analytics_job_name = string
+    time_format               = string
+    authentication_mode       = optional(string)
+    serialization             = list(object({
+            type            = string
+            encoding        = optional(string)
+            field_delimiter = optional(string)
+        }))
+  }))
+}
