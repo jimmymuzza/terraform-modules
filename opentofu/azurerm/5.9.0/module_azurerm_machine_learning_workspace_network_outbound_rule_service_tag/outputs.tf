@@ -1,0 +1,4 @@
+output "machine_learning_workspace_network_outbound_rule_service_tags" {
+  description = "All machine_learning_workspace_network_outbound_rule_service_tag resources"
+  value       = azurerm_machine_learning_workspace_network_outbound_rule_service_tag.machine_learning_workspace_network_outbound_rule_service_tags
+}

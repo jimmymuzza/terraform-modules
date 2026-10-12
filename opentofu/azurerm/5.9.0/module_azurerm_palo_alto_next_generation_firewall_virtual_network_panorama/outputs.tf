@@ -1,0 +1,4 @@
+output "palo_alto_next_generation_firewall_virtual_network_panoramas" {
+  description = "All palo_alto_next_generation_firewall_virtual_network_panorama resources"
+  value       = azurerm_palo_alto_next_generation_firewall_virtual_network_panorama.palo_alto_next_generation_firewall_virtual_network_panoramas
+}
